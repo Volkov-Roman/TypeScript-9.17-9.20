@@ -7,3 +7,8 @@ export const getAllDiaries = async (): Promise<DiaryEntry[]> => {
   const response = await axios.get<DiaryEntry[]>(baseUrl);
   return response.data;
 };
+
+export const createDiary = async (newEntry: Omit<DiaryEntry, 'id'>): Promise<DiaryEntry> => {
+  const response = await axios.post<DiaryEntry>(baseUrl, newEntry);
+  return response.data;
+};
