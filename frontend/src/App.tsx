@@ -53,22 +53,33 @@ function App() {
         </div>
         <div>
           weather:
-          <select value={weather} onChange={(e) => setWeather(e.target.value as Weather)}>
-            <option value="sunny">sunny</option>
-            <option value="rainy">rainy</option>
-            <option value="cloudy">cloudy</option>
-            <option value="stormy">stormy</option>
-            <option value="windy">windy</option>
-          </select>
+          {(['sunny', 'rainy', 'cloudy', 'stormy', 'windy'] as Weather[]).map(w => (
+            <label key={w}>
+              <input
+                type="radio"
+                name="weather"
+                value={w}
+                checked={weather === w}
+                onChange={() => setWeather(w)}
+              />
+              {w}
+            </label>
+          ))}
         </div>
         <div>
           visibility:
-          <select value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}>
-            <option value="great">great</option>
-            <option value="good">good</option>
-            <option value="ok">ok</option>
-            <option value="poor">poor</option>
-          </select>
+          {(['great', 'good', 'ok', 'poor'] as Visibility[]).map(v => (
+            <label key={v}>
+              <input
+                type="radio"
+                name="visibility"
+                value={v}
+                checked={visibility === v}
+                onChange={() => setVisibility(v)}
+              />
+              {v}
+            </label>
+          ))}
         </div>
         <div>
           comment:
