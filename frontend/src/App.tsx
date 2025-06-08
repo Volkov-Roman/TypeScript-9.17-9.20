@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { DiaryEntry, Weather, Visibility } from './types';
 import { getAllDiaries, createDiary } from './services/diaryService';
+import axios from 'axios';
 
 function App() {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
@@ -8,6 +9,7 @@ function App() {
   const [weather, setWeather] = useState<Weather>('sunny');
   const [visibility, setVisibility] = useState<Visibility>('great');
   const [comment, setComment] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getAllDiaries().then(data => {
@@ -31,14 +33,20 @@ function App() {
       setWeather('sunny');
       setVisibility('great');
       setComment('');
+      setError(null);
     } catch (error) {
-      console.error('Failed to create diary:', error);
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data || 'Unknown Axios error');
+      } else {
+        setError('Unknown error');
+      }
     }
   };
 
   return (
     <div>
       <h2>Add new entry</h2>
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           date: <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
